@@ -12,17 +12,18 @@ pipeline {
         }
         stage("build-maven") {
             steps { 
-                sh 'sudo apt-get update -y'
-                sh 'sudo apt-get install maven curl unzip -y'
+                // sh 'sudo apt-get update -y'
+                // sh 'sudo apt-get install maven curl unzip -y'
                 sh 'mvn clean package'
             }
         } 
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         withSonarQubeEnv('sonarqube-sonar') {
-        //             sh 'gradle sonarqube'
-        //         }
-        //     }
-        // }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonarqube-sonar') {
+                    sh '${scannerHome}/bin/sonar-scanner'
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
     }
 }
