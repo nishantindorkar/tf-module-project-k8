@@ -14,7 +14,7 @@ pipeline {
             steps { 
                 // sh 'sudo apt update -y'
                 // sh 'sudo apt-get install gradle curl unzip -y'
-                sh 'cd /var/lib/jenkins/workspace/project-test-phase && gradle clean build'
+                sh 'cd /var/lib/jenkins/workspace/project-test-phase && /usr/bin/gradle clean build'
                 sh 'gradle --version'
             }
         } 
