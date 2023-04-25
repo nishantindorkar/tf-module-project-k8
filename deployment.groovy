@@ -5,7 +5,7 @@ pipeline {
         SONARQUBE_ENV = 'sonarqube-sonar'
     }
     stages {
-        stage('Checkout') {
+        stage('Git Pull') {
             steps {
                 sh 'sudo apt update -y'
                 git credentialsId: 'jenkins', url: "${REPO_URL}"
@@ -13,7 +13,7 @@ pipeline {
                 // sh 'ls'
             }
         }
-        stage("build Maven") {
+        stage("Build Maven") {
             steps { 
                 // sh 'sudo apt-get update -y'
                 // sh 'sudo apt-get install maven curl unzip -y'
@@ -23,7 +23,6 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_ENV}") {
-                    //sh '${scannerHome}/bin/sonar-scanner'
                     sh 'mvn sonar:sonar'
                 }
             }
