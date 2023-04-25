@@ -18,11 +18,9 @@ pipeline {
             }
         } 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonarqube-sonar') {
-                    //sh '${scannerHome}/bin/sonar-scanner'
-                    sh 'mvn sonar:sonar'
-                }
+            def mvn = tool 'Default Maven';
+            withSonarQubeEnv() {
+            sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=project-k8s"
             }
         }
     }
