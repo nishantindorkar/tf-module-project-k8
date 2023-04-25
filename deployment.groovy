@@ -1,16 +1,19 @@
 pipeline {
     agent any
-    
+    environment {
+        REPO_URL = 'git@github.com:nishantindorkar/student-ui.git'
+        SONARQUBE_ENV = 'sonarqube-sonar'
+    }
     stages {
         stage('Checkout') {
             steps {
                 sh 'sudo apt update -y'
-                git credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/student-ui.git'
+                git credentialsId: 'jenkins', url: "${REPO_URL}"
                 // sh 'pwd'
                 // sh 'ls'
             }
         }
-        stage("build-maven") {
+        stage("build Maven") {
             steps { 
                 // sh 'sudo apt-get update -y'
                 // sh 'sudo apt-get install maven curl unzip -y'
@@ -18,9 +21,11 @@ pipeline {
             }
         } 
         stage('SonarQube Analysis') {
-            def mvn = tool 'Default Maven';
-            withSonarQubeEnv() {
-            sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=project-k8s"
+            steps {
+                withSonarQubeEnv("${SONARQUBE_ENV}") {
+                    sh '${scannerHome}/bin/sonar-scanner'
+                    sh 'mvn sonar:sonar'
+                }
             }
         }
     }
