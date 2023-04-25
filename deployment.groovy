@@ -10,12 +10,11 @@ pipeline {
                 // sh 'ls'
             }
         }
-        stage("build-gradle") {
+        stage("build-maven") {
             steps { 
-                // sh 'sudo apt update -y'
-                // sh 'sudo apt-get install gradle curl unzip -y'
-                sh 'cd /var/lib/jenkins/workspace/project-test-phase && /usr/bin/gradle clean build'
-                sh 'gradle --version'
+                sh 'sudo apt-get update -y'
+                sh 'sudo apt-get install maven curl unzip -y'
+                sh 'mvn clean package'
             }
         } 
         // stage('SonarQube Analysis') {
