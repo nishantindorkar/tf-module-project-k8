@@ -3,7 +3,7 @@ pipeline {
     environment {
         REPO_URL = 'git@github.com:nishantindorkar/student-ui.git'
         SONARQUBE_ENV = 'sonarqube-new'
-        DOCKERFILE_PATH = 'docker/Dockerfile'
+        DOCKERFILE_PATH = './docker'
         IMAGE_NAME = 'img-dev'
         TAG = 'latest'
     }
