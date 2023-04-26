@@ -5,6 +5,12 @@ pipeline {
         SONARQUBE_ENV = 'sonarqube-new'
     }
     stages {
+        stage('Post-build Cleanup') {
+            steps {
+                sh 'mvn clean'
+                sh 'rm -rf target'
+            }
+        }
         stage('Git Pull') {
             steps {
                 sh 'sudo apt update -y'
@@ -28,11 +34,6 @@ pipeline {
                 // sh 'sudo apt-get update -y'
                 // sh 'sudo apt-get install maven curl unzip -y'
                 sh 'mvn clean package'
-            }
-        }
-        stage('Post-build Cleanup') {
-            steps {
-                sh 'mvn clean'
             }
         } 
     }
