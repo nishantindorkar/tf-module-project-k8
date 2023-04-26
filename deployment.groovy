@@ -55,9 +55,9 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
+                sh "cp docker/Dockerfile ${workspace}/Dockerfile"
                 sh "ls -la"
                 sh "echo ${workspace}"
-                sh "ls ${workspace}/docker/"
                 //sh 'pwd'
                 // sh "docker build -t img-dev -f ${WORKSPACE}/docker/Dockerfile ."
                 // sh 'docker images'                
