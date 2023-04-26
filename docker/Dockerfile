@@ -2,9 +2,9 @@ FROM ubuntu:latest
 
 RUN mkdir /opt/tomcat/
 RUN apt install curl zip -y
-# RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-#     unzip awscliv2.zip && \
-#     ./aws/install
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install
 
 WORKDIR /opt/tomcat
 RUN apt update && apt upgrade -y
