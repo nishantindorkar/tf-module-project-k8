@@ -57,7 +57,7 @@ pipeline {
                 //sh 'sudo usermod -aG docker $(whoami)'
                 git credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
                 //sh 'pwd'
-                sh "docker build -t img-dev -f ${WORKSPACE}/docker ."
+                sh "docker build -t img-dev -f ${WORKSPACE}/docker/Dockerfile ."
                 sh 'docker images'                
                 // script {
                 //     docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
