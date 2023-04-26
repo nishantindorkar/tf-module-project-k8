@@ -55,10 +55,12 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
-                git credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
+                sh "ls -la"
+                sh "echo ${workspace}"
+                sh "ls ${workspace}/docker/"
                 //sh 'pwd'
-                sh "docker build -t img-dev -f ${WORKSPACE}/docker/Dockerfile ."
-                sh 'docker images'                
+                // sh "docker build -t img-dev -f ${WORKSPACE}/docker/Dockerfile ."
+                // sh 'docker images'                
                 // script {
                 //     docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
                 //     docker.image("${IMAGE_NAME}:${TAG}").inspect()
