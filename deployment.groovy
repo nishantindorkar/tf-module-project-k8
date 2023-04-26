@@ -30,6 +30,15 @@ pipeline {
         //         }
         //     }
         // }
+        stage('Push Artifacts') {
+            steps{
+                sh 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
+                sh 'unzip awscliv2.zip'
+                sh 'sudo ./aws/install'
+                sh 'aws s3 mb s3://artifact-studentui'
+                sh 'aws s3 cp **/*.war s3://artifact-studentui/student-${BUILD_ID}.war'
+            }
+        }
         stage('Post-build Cleanup') {
             steps {
                 //sh 'mvn clean'
