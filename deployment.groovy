@@ -55,12 +55,12 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
-                // git credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
-                // sh "echo ${workspace}"
-                // sh "cp tf-module-project-k8/docker/Dockerfile ${workspace}/Dockerfile"
+                git credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
+                sh "echo ${workspace}"
+                sh "cp tf-module-project-k8/docker/Dockerfile ${workspace}/Dockerfile"
                 sh 'ls -la'
-                // sh "docker build -t img-dev -f ${WORKSPACE}/Dockerfile ."
-                // sh 'docker images'                
+                sh "docker build -t img-dev -f ${WORKSPACE}/Dockerfile ."
+                sh 'docker images'                
                 // script {
                 //     docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
                 //     docker.image("${IMAGE_NAME}:${TAG}").inspect()
@@ -71,6 +71,7 @@ pipeline {
             steps {
                 //sh 'mvn clean'
                 sh 'sudo rm -rf target'
+                sh 'ls -la'
             }
         } 
     }
