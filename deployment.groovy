@@ -55,8 +55,8 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
-                sh "cp docker/Dockerfile ${WORKSPACE}"
-                sh "docker build -t myimage:latest ${WORKSPACE} ."
+                git 'git@github.com:nishantindorkar/tf-module-project-k8.git'
+                sh 'docker build -t img-dev:latest .'
                 sh 'docker images'                
                 // script {
                 //     docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
