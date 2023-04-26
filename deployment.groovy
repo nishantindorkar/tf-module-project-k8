@@ -55,6 +55,7 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
+                sh 'sudo apt install git -y'
                 git credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
                 sh "echo ${workspace}"
                 sh "cp tf-module-project-k8/docker/Dockerfile ${workspace}/Dockerfile"
