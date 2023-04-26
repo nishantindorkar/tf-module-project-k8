@@ -3,6 +3,9 @@ pipeline {
     environment {
         REPO_URL = 'git@github.com:nishantindorkar/student-ui.git'
         SONARQUBE_ENV = 'sonarqube-new'
+        DOCKERFILE_PATH = 'docker/Dockerfile'
+        IMAGE_NAME = 'img-dev'
+        TAG = 'latest'
     }
     stages {
         stage('Git Pull') {
@@ -41,16 +44,20 @@ pipeline {
         }
         stage('Docker Build') {
             steps{
-                sh '''
-                sudo apt update -y
-                sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release -y
-                curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-                echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-                sudo apt update -y
-                sudo apt install docker-ce docker-ce-cli containerd.io -y
-                docker --version
-                echo "successfully installed"
-                '''
+                // sh ''' #install docker commands
+                // sudo apt update -y
+                // sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release -y
+                // curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+                // echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+                // sudo apt update -y
+                // sudo apt install docker-ce docker-ce-cli containerd.io -y
+                // docker --version
+                // echo "successfully installed"
+                // '''                
+                script {
+                    docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
+                    docker.image("${IMAGE_NAME}:${TAG}").inspect()
+                }
             }
         }
         stage('Post-build Cleanup') {
