@@ -8,7 +8,7 @@ pipeline {
         stage('Post-build Cleanup') {
             steps {
                 sh 'mvn clean'
-                sh 'rm -rf target'
+                sh 'sudo rm -rf target'
             }
         }
         stage('Git Pull') {
