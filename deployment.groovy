@@ -10,16 +10,9 @@ pipeline {
                 sh 'sudo apt update -y'
                 git credentialsId: 'jenkins', url: "${REPO_URL}"
                 // sh 'pwd'
-                // sh 'ls'
+                sh 'ls'
             }
         }
-        stage("Build Maven") {
-            steps { 
-                // sh 'sudo apt-get update -y'
-                // sh 'sudo apt-get install maven curl unzip -y'
-                sh 'mvn clean package'
-            }
-        } 
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_ENV}") {
@@ -30,5 +23,17 @@ pipeline {
                 }
             }
         }
+        stage("Build Maven") {
+            steps { 
+                // sh 'sudo apt-get update -y'
+                // sh 'sudo apt-get install maven curl unzip -y'
+                sh 'mvn clean package'
+            }
+        }
+        stage('Post-build Cleanup') {
+            steps {
+                sh 'mvn clean'
+            }
+        } 
     }
 }
