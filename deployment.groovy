@@ -54,9 +54,10 @@ pipeline {
                 // docker --version
                 // echo "successfully installed"
                 // '''
-                sh 'sudo usermod -aG docker $(whoami)'
-                sh 'sudo docker build -t dev-img:latest -f ./docker/Dockerfile .'
-                sh 'sudo docker images'                
+                //sh 'sudo usermod -aG docker $(whoami)'
+                sh "cp docker/Dockerfile ${WORKSPACE}"
+                sh "docker build -t myimage:latest ${WORKSPACE} ."
+                sh 'docker images'                
                 // script {
                 //     docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
                 //     docker.image("${IMAGE_NAME}:${TAG}").inspect()
