@@ -53,11 +53,13 @@ pipeline {
                 // sudo apt install docker-ce docker-ce-cli containerd.io -y
                 // docker --version
                 // echo "successfully installed"
-                // '''                
-                script {
-                    docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
-                    docker.image("${IMAGE_NAME}:${TAG}").inspect()
-                }
+                // '''
+                sh 'docker build -t dev-img:latest -f ./docker/Dockerfile .'
+                sh 'docker images'                
+                // script {
+                //     docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
+                //     docker.image("${IMAGE_NAME}:${TAG}").inspect()
+                // }
             }
         }
         stage('Post-build Cleanup') {
