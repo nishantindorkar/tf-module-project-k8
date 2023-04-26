@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Post-build Cleanup') {
             steps {
-                sh 'mvn clean'
+                //sh 'mvn clean'
                 sh 'sudo rm -rf target'
             }
         }
