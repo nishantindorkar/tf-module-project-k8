@@ -13,7 +13,7 @@ pipeline {
                 sh 'sudo apt update -y'
                 git credentialsId: 'jenkins', url: "${REPO_URL}"
                 // sh 'pwd'
-                sh 'ls'
+                //sh 'ls'
             }
         }
         stage("Build Maven") {
@@ -56,7 +56,8 @@ pipeline {
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
                 git credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
-                sh 'docker build -t img-dev:latest .'
+                sh 'pwd'
+                sh 'docker build -t img-dev -f ${pwd} .'
                 sh 'docker images'                
                 // script {
                 //     docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
