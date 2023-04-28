@@ -3,7 +3,7 @@ pipeline {
     environment {
         REPO_URL = 'git@github.com:nishantindorkar/student-ui.git'
         SONARQUBE_ENV = 'sonarqube-new'
-        IMG_NAME = 'tomcat-img  '
+        IMG_NAME = 'tomcat-img'
         AWS_REGION = "us-east-1"
         AWS_ACCOUNT_ID = "164358940697"
         ECR_REPO_NAME = "tomcat-repo"
