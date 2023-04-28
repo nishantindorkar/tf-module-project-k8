@@ -3,6 +3,7 @@ pipeline {
     environment {
         REPO_URL = 'git@github.com:nishantindorkar/student-ui.git'
         SONARQUBE_ENV = 'sonarqube-new'
+        IMG_NAME = 'tomcat-img  '
         AWS_REGION = "us-east-1"
         AWS_ACCOUNT_ID = "164358940697"
         ECR_REPO_NAME = "tomcat-repo"
@@ -65,8 +66,9 @@ pipeline {
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)' //add jenkins user to docker group
                 sh 'docker rmi -f `docker images -q`'
-                sh "docker build -t tomcat-img:${IMG_TAG} -f ${WORKSPACE}/docker/Dockerfile ."
-                sh 'docker images'                
+                sh "docker build -t ${IMG_NAME}:${IMG_TAG} -f ${WORKSPACE}/docker/Dockerfile ."
+                sh 'docker images'
+                sh "docker tag ${IMG_NAME}:${IMG_TAG}"                
             }
         }
         stage('Push Docker Image to ECR') {
