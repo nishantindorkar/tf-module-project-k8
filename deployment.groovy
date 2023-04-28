@@ -39,7 +39,7 @@ pipeline {
                 // sh 'unzip awscliv2.zip'
                 // sh 'sudo ./aws/install'
                 sh 'aws s3 mb s3://artifact-studentui'
-                sh 'aws s3 cp **/*.war s3://artifact-studentui/student-${BUILD_ID}.war'
+                sh 'aws s3 cp **/*.war s3://artifact-studentui/student.war'
             }
         }
         stage('Checkout repository') {
@@ -52,15 +52,6 @@ pipeline {
                           userRemoteConfigs: [[credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git']]])
             }
         }
-        // stage('Change directory') {
-        //     steps {
-        //         dir('tf-module-project-k8') {
-        //             sh 'ls -la'
-        //             sh "docker build -t img-dev ."
-        //             sh 'docker images'
-        //         }
-        //     }
-        // }
         stage('Docker Build') {
             steps{
                 // sh ''' #install docker commands
