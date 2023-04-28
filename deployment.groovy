@@ -39,7 +39,7 @@ pipeline {
                 // sh 'unzip awscliv2.zip'
                 // sh 'sudo ./aws/install'
                 sh 'aws s3 mb s3://artifact-studentui'
-                sh 'aws s3 cp **/*.war s3://artifact-studentui/student-${BUILD_ID}.war'
+                sh 'aws s3 cp **/*.war s3://artifact-studentui/student.war'
             }
         }
         stage('Checkout repository') {
