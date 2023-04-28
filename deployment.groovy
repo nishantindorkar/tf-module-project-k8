@@ -65,8 +65,17 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
-                sh "docker build -t tomcat-img -f ${WORKSPACE}/docker/Dockerfile ."
+                sh "docker build -t tomcat-img:${env.BUILD_NUMBER} -f ${WORKSPACE}/docker/Dockerfile ."
                 sh 'docker images'                
+            }
+        }
+        stage('Push Docker Image to ECR') {
+            steps {
+                script {
+                    docker.withRegistry('https://164358940697.dkr.ecr.us-east-1.amazonaws.com', 'aws.cred') {
+                        dockerImage.push("${env.BUILD_NUMBER}")
+                    }
+                }
             }
         }
         stage('Post-build Cleanup') {
