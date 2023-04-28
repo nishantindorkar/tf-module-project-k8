@@ -21,11 +21,8 @@ RUN aws s3 cp s3://artifact-studentui/student.war .
 WORKDIR /opt/tomcat/lib
 RUN curl -O https://s3-us-west-2.amazonaws.com/studentapi-cit/mysql-connector.jar
 
-ARG LINE_NO=21
-RUN pwd
-RUN ls -la
-COPY /data.txt /opt/tomcat
-RUN sed -i "${LINE_NO}r /opt/tomcat/data.txt" /opt/tomcat/conf/context.xml
+WORKDIR /opt/tomcat/conf
+RUN sed -i '21i <Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource" maxTotal="500" maxIdle="30" maxWaitMillis="1000" username="admin" password="Admin123" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://database-1.ccbjod0ijwud.us-east-1.rds.amazonaws.com:3306/studentapp"/>' context.xml
 
 EXPOSE 8080
 
