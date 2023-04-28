@@ -65,7 +65,7 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
-                sh "docker build -t img-dev -f ${WORKSPACE}/docker/Dockerfile ."
+                sh "docker build -t tomcat-img -f ${WORKSPACE}/docker/Dockerfile ."
                 sh 'docker images'                
             }
         }
