@@ -24,7 +24,7 @@ RUN curl -O https://s3-us-west-2.amazonaws.com/studentapi-cit/mysql-connector.ja
 ARG LINE_NO=21
 RUN pwd
 RUN ls -la
-COPY ./data.txt /opt/tomcat
+COPY /data.txt /opt/tomcat
 RUN sed -i "${LINE_NO}r /opt/tomcat/data.txt" /opt/tomcat/conf/context.xml
 
 EXPOSE 8080
