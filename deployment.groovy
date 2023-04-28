@@ -3,9 +3,9 @@ pipeline {
     environment {
         REPO_URL = 'git@github.com:nishantindorkar/student-ui.git'
         SONARQUBE_ENV = 'sonarqube-new'
-        // DOCKERFILE_PATH = './docker'
-        // IMAGE_NAME = 'img-dev'
-        // TAG = 'latest'
+        AWS_REGION = "us-east-1"
+        AWS_ACCOUNT_ID = "164358940697"
+        ECR_REPO_NAME = "tomcat-repo"
     }
     stages {
         stage('Git Pull') {
@@ -72,8 +72,10 @@ pipeline {
         stage('Push Docker Image to ECR') {
             steps {
                 script {
-                    docker.withRegistry('https://164358940697.dkr.ecr.us-east-1.amazonaws.com', 'aws.cred') {
-                        dockerImage.push("${env.BUILD_NUMBER}")
+                    docker.withRegistry(
+                    "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com",
+                    "ecr:us-east-1:${ECR_REPO_NAME}") {
+                    dockerImage.push("${env.BUILD_NUMBER}")
                     }
                 }
             }
