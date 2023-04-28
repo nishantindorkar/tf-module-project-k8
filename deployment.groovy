@@ -58,6 +58,8 @@ pipeline {
                     sh 'ls -la'
                     sh 'pwd'
                 }
+            }
+        }
         stage('Docker Build') {
             steps{
                 // sh ''' #install docker commands
