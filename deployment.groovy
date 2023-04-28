@@ -58,7 +58,7 @@ pipeline {
                 git tool: 'git-install', credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
                 // sh "echo ${workspace}"
                 // sh "cp tf-module-project-k8/docker/Dockerfile ${workspace}/Dockerfile"
-                sh 'ls -la'
+                //sh 'ls -la'
                 // sh "docker build -t img-dev -f ${WORKSPACE}/Dockerfile ."
                 //sh 'docker images'                
                 // script {
