@@ -74,7 +74,7 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
-                sh "docker build -t img-dev -f ${WORKSPACE}/project-test-phase/docker ."
+                sh "docker build -t img-dev -f ${WORKSPACE}/docker ."
                 sh 'docker images'                
             }
         }
