@@ -7,7 +7,7 @@ pipeline {
         AWS_REGION = "us-east-1"
         AWS_ACCOUNT_ID = "164358940697"
         ECR_REPO_NAME = "tomcat-repo"
-        IMG_TAG = 'latest'
+        IMG_TAG = 'v1.0'
     }
     stages {
         stage('Git Pull') {
@@ -75,7 +75,7 @@ pipeline {
             steps {
                 script {
                     sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMG_TAG}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:latest"
                 }
             }
         }
