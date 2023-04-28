@@ -68,6 +68,7 @@ pipeline {
                 sh 'docker rmi -f `docker images -q`'
                 sh "docker build -t ${IMG_NAME}:${IMG_TAG} -f ${WORKSPACE}/docker/Dockerfile ."
                 sh 'docker images'
+                sh 'pwd'
                 sh "docker tag ${IMG_NAME}:${IMG_TAG}"                
             }
         }
