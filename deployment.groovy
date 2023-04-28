@@ -74,11 +74,8 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
-                dir('tf-module-project-k8') {
-                    sh 'ls -la'
-                    sh "docker build -t img-dev -f docker/Dockerfile ."
-                    sh 'docker images'
-                }
+                sh "docker build -t img-dev -f ${WORKSPACE}/project-test-phase/docker ."
+                sh 'docker images'                
             }
         }
         stage('Post-build Cleanup') {
