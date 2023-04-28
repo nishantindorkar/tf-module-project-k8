@@ -76,7 +76,7 @@ pipeline {
                 //sh 'sudo usermod -aG docker $(whoami)'
                 dir('tf-module-project-k8') {
                     sh 'ls -la'
-                    sh "docker build -t img-dev ."
+                    sh "docker build -t img-dev -f docker/Dockerfile ."
                     sh 'docker images'
                 }
             }
