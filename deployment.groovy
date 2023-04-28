@@ -75,14 +75,15 @@ pipeline {
             steps {
                 script {
                     sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-                    sh "docker tag ${IMG_NAME}:${IMG_TAG} ${AWS_REGION}.dkr.ecr.us-east-1.amazonaws.com/${ECR_REPO_NAME}:${IMG_NAME}"
-                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMG_NAME}"
+                    sh "docker tag ${IMG_NAME}:${IMG_TAG} ${AWS_REGION}.dkr.ecr.us-east-1.amazonaws.com/${ECR_REPO_NAME}:${IMG_TAG}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMG_TAG}"
                 }
             }
         }
         stage('Post-build Cleanup') {
             steps {
                 //sh 'mvn clean'
+                sh 'docker builder prune --all && docker image prune --all && docker container prune --all'
                 sh 'sudo rm -rf target'
                 sh 'ls -la'
             }
