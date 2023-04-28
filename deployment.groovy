@@ -3,9 +3,9 @@ pipeline {
     environment {
         REPO_URL = 'git@github.com:nishantindorkar/student-ui.git'
         SONARQUBE_ENV = 'sonarqube-new'
-        DOCKERFILE_PATH = './docker'
-        IMAGE_NAME = 'img-dev'
-        TAG = 'latest'
+        // DOCKERFILE_PATH = './docker'
+        // IMAGE_NAME = 'img-dev'
+        // TAG = 'latest'
     }
     stages {
         stage('Git Pull') {
@@ -55,7 +55,7 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
-                git tool: 'git-install', credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
+                git credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
                 // sh "echo ${workspace}"
                 // sh "cp tf-module-project-k8/docker/Dockerfile ${workspace}/Dockerfile"
                 sh 'ls -la'
