@@ -42,6 +42,22 @@ pipeline {
                 sh 'aws s3 cp **/*.war s3://artifact-studentui/student-${BUILD_ID}.war'
             }
         }
+        stage('Clone repository') {
+            steps {
+                checkout([$class: 'GitSCM',
+                          branches: [[name: '*/main']],
+                          doGenerateSubmoduleConfigurations: false,
+                          extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]],
+                          submoduleCfg: [],
+                          userRemoteConfigs: [[credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git']]])
+            }
+        }
+        stage('Change directory') {
+            steps {
+                dir('tf-module-project-k8') {
+                    sh 'ls -la'
+                    sh 'pwd'
+                }
         stage('Docker Build') {
             steps{
                 // sh ''' #install docker commands
@@ -54,13 +70,14 @@ pipeline {
                 // docker --version
                 // echo "successfully installed"
                 // '''
+                sh 'echo "hello"'
                 //sh 'sudo usermod -aG docker $(whoami)'
-                git credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
+                //git credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git'
                 // sh "echo ${workspace}"
                 // sh "cp tf-module-project-k8/docker/Dockerfile ${workspace}/Dockerfile"
-                sh 'ls -la'
+                // sh 'ls -la'
                 // sh "docker build -t img-dev -f ${WORKSPACE}/Dockerfile ."
-                //sh 'docker images'                
+                // sh 'docker images'                
                 // script {
                 //     docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
                 //     docker.image("${IMAGE_NAME}:${TAG}").inspect()
