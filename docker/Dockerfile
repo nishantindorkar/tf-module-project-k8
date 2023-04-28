@@ -16,7 +16,7 @@ RUN mv apache-tomcat-8.5.88/* /opt/tomcat/.
 
 WORKDIR /opt/tomcat/webapps
 ARG BUILD_ID
-RUN s3 cp s3://artifact-studentui/student.war .
+RUN aws s3 cp s3://artifact-studentui/student-${BUILD_ID}.war .
 
 WORKDIR /opt/tomcat/lib
 RUN curl -O https://s3-us-west-2.amazonaws.com/studentapi-cit/mysql-connector.jar
