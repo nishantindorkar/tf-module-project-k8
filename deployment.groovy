@@ -6,15 +6,14 @@ pipeline {
         AWS_REGION = "us-east-1"
         AWS_ACCOUNT_ID = "164358940697"
         ECR_REPO_NAME = "tomcat-repo"
+        IMG_TAG = 'latest'
     }
     stages {
         stage('Git Pull') {
             steps {
                 sh 'sudo apt update -y'
                 git credentialsId: 'jenkins', url: "${REPO_URL}"
-                // sh 'pwd'
-                //sh 'ls'
-            }
+                }
         }
         stage("Build Maven") {
             steps { 
@@ -66,7 +65,7 @@ pipeline {
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)' //add jenkins user to docker group
                 sh 'docker rmi -f `docker images -q`'
-                sh "docker build -t tomcat-img:${env.BUILD_NUMBER} -f ${WORKSPACE}/docker/Dockerfile ."
+                sh "docker build -t tomcat-img:${IMG_TAG} -f ${WORKSPACE}/docker/Dockerfile ."
                 sh 'docker images'                
             }
         }
@@ -74,12 +73,7 @@ pipeline {
             steps {
                 script {
                     sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${env.BUILD_NUMBER}"
-                    // docker.withRegistry(
-                    // "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com",
-                    // "ecr:us-east-1:${ECR_REPO_NAME}") {
-                    // dockerImage.push("${env.BUILD_NUMBER}")
-                    //}
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMG_TAG}"
                 }
             }
         }
