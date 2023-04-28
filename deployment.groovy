@@ -42,7 +42,7 @@ pipeline {
                 sh 'aws s3 cp **/*.war s3://artifact-studentui/student-${BUILD_ID}.war'
             }
         }
-        stage('Clone repository') {
+        stage('Checkout repository') {
             steps {
                 checkout([$class: 'GitSCM',
                           branches: [[name: '*/main']],
@@ -52,14 +52,15 @@ pipeline {
                           userRemoteConfigs: [[credentialsId: 'jenkins', url: 'git@github.com:nishantindorkar/tf-module-project-k8.git']]])
             }
         }
-        stage('Change directory') {
-            steps {
-                dir('tf-module-project-k8') {
-                    sh 'ls -la'
-                    sh 'pwd'
-                }
-            }
-        }
+        // stage('Change directory') {
+        //     steps {
+        //         dir('tf-module-project-k8') {
+        //             sh 'ls -la'
+        //             sh "docker build -t img-dev ."
+        //             sh 'docker images'
+        //         }
+        //     }
+        // }
         stage('Docker Build') {
             steps{
                 // sh ''' #install docker commands
@@ -73,12 +74,11 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)'
-                sh "docker build -t img-dev -f ${WORKSPACE}/tf-module-project-k8/Dockerfile ."
-                sh 'docker images'                
-                // script {
-                //     docker.build("${IMAGE_NAME}:${TAG}", "-f ${DOCKERFILE_PATH} .")
-                //     docker.image("${IMAGE_NAME}:${TAG}").inspect()
-                // }
+                dir('tf-module-project-k8') {
+                    sh 'ls -la'
+                    sh "docker build -t img-dev ."
+                    sh 'docker images'
+                }
             }
         }
         stage('Post-build Cleanup') {
