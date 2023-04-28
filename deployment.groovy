@@ -79,7 +79,7 @@ pipeline {
                     // "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com",
                     // "ecr:us-east-1:${ECR_REPO_NAME}") {
                     // dockerImage.push("${env.BUILD_NUMBER}")
-                    }
+                    //}
                 }
             }
         }
