@@ -7,7 +7,7 @@ pipeline {
         AWS_REGION = "us-east-1"
         AWS_ACCOUNT_ID = "164358940697"
         ECR_REPO_NAME = "tomcat-repo"
-        IMG_TAG = 'v1.0'
+        IMG_TAG = 'latest'
     }
     stages {
         stage('Git Pull') {
@@ -68,14 +68,14 @@ pipeline {
                 sh 'docker rmi -f `docker images -q`'
                 sh "docker build -t ${IMG_NAME}:${IMG_TAG} -f ${WORKSPACE}/docker/Dockerfile ."
                 sh 'docker images'
-                sh "docker tag ${IMG_NAME}:${IMG_TAG} tomcat-img:latest"                
+                //sh "docker tag ${IMG_NAME}:${IMG_TAG} tomcat-img:latest"                
             }
         }
         stage('Push Docker Image to ECR') {
             steps {
                 script {
                     sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:latest"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMG_NAME}"
                 }
             }
         }
