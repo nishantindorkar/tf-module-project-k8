@@ -65,7 +65,7 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)' //add jenkins user to docker group
-                sh 'docker builder prune --all && docker image prune --all && docker container prune --all'
+                sh 'docker builder prune --all && docker image prune --all && docker container prune --force'
                 //sh 'docker rmi -f `docker images -q`'
                 sh "docker build -t ${IMG_NAME}:${IMG_TAG} -f ${WORKSPACE}/docker/Dockerfile ."
                 sh 'docker images'
