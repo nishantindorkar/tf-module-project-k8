@@ -65,11 +65,10 @@ pipeline {
                 // echo "successfully installed"
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)' //add jenkins user to docker group
-                //sh 'docker rmi -f `docker images -q`'
+                sh 'docker rmi -f `docker images -q`'
                 sh "docker build -t ${IMG_NAME}:${IMG_TAG} -f ${WORKSPACE}/docker/Dockerfile ."
                 sh 'docker images'
-                sh 'pwd'
-                sh "docker tag ${IMG_NAME}:${IMG_TAG}"                
+                sh "docker tag ${IMG_NAME}:${IMG_TAG} tomcat-img:latest"                
             }
         }
         stage('Push Docker Image to ECR') {
