@@ -13,15 +13,22 @@ spec:
         app: tem-app-dep
         type: front-end
     spec:
-        containers:
-          - name: app-container
-            image: 164358940697.dkr.ecr.us-east-1.amazonaws.com/tomcat-repo:latest
-            imagePullPolicy: Always
+      containers:
+        - name: app-container
+          image: 164358940697.dkr.ecr.us-east-1.amazonaws.com/tomcat-repo:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          command:
+            - sh
+            - -c
+            - "catalina.sh run"
+      imagePullSecrets:
+        - name: aws-ecr-secret
   replicas: 1
   selector:
     matchLabels:
       type: front-end
-
 ---
 apiVersion: v1
 kind: Service
@@ -32,4 +39,5 @@ spec:
     app: tem-app-dep
   type: LoadBalancer
   ports:
-    - containerPort: 8081
+    - port: 8082
+      targetPort: 8080
