@@ -1,11 +1,35 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: my-app
-space:
-  containers:
-    - name: app-container
-      image: 164358940697.dkr.ecr.us-east-1.amazonaws.com/tomcat-repo:latest
-      imagePullPolicy: Always
-      ports:
-      - containerPort: 8080
+  name: app-deploy
+  labels:
+    app: app-dep
+    type: front-end
+spec:
+  template:
+    metadata:
+      name: app-deploy-pod
+      labels:
+        app: tem-app-dep
+        type: front-end
+    spec:
+        containers:
+          - name: app-container
+            image: 164358940697.dkr.ecr.us-east-1.amazonaws.com/tomcat-repo:latest
+            imagePullPolicy: Always
+  replicas: 1
+  selector:
+    matchLabels:
+      type: front-end
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-dep-service
+spec:
+  selector:
+    app: tem-app-dep
+  type: LoadBalancer
+  ports:
+    - containerPort: 8080

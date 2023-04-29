@@ -81,13 +81,30 @@ pipeline {
                 }
             }
         }
+        stage('Deployment') {
+            steps {
+                sshagent(['ubuntu-machine']) {
+                    script{
+                        try{
+                        sh 'ssh -i StrictHostKeyChecking=no ubuntu@44.212.21.84 kubectl apply -f my-app.yaml'
+                        }
+                        catch(error)
+                        {}
+                    }
+                }
+            }
+        }
         stage('Post-build Cleanup') {
             steps {
                 //sh 'mvn clean'
-                //sh 'docker builder prune --all && docker image prune --all && docker container prune --all'
                 sh 'sudo rm -rf target'
                 sh 'ls -la'
             }
         } 
     }
+    // post {
+	// 	always {
+	// 		sh 'docker logout'
+	// 	}
+	// }
 }
