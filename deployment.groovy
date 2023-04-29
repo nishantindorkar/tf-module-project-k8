@@ -83,15 +83,24 @@ pipeline {
         }
         stage('Deployment') {
             steps {
-                sshagent(['ubuntu-machine']) {
-                    script{
-                        try{
-                        sh 'ssh -i StrictHostKeyChecking=no ubuntu@44.212.21.84 kubectl apply -f my-app.yaml'
-                        }
-                        catch(error)
-                        {}
-                    }
+                withCredentials([sshUserPrivateKey(credentialsId: 'ubuntu-machine', keyFileVariable: 'ubuntu', usernameVariable: 'tomcat')]) {
+                sh '''
+                ssh -i ${ubuntu} -o StrictHostKeyChecking=no ubuntu@44.212.21.84<<EOF
+                kubectl apply -f /var/lib/jenkins/workspace/project-test-phase/my-app.yaml
+                kubectl get pods
+                EOF
+
+                '''
                 }
+                // sshagent(['ubuntu-machine']) {
+                //     script{
+                //         try{
+                //         sh 'ssh -i StrictHostKeyChecking=no ubuntu@44.212.21.84 kubectl apply -f my-app.yaml'
+                //         }
+                //         catch(error)
+                //         {}
+                //     }
+                // }
             }
         }
         stage('Post-build Cleanup') {

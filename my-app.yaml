@@ -32,4 +32,4 @@ spec:
     app: tem-app-dep
   type: LoadBalancer
   ports:
-    - containerPort: 8080
+    - containerPort: 8081
