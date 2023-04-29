@@ -66,18 +66,16 @@ pipeline {
                 // '''
                 //sh 'sudo usermod -aG docker $(whoami)' //add jenkins user to docker group
                 sh 'docker builder prune --all && docker image prune --all && docker container prune --force'
-                //sh 'docker rmi -f `docker images -q`'
                 sh "docker build -t ${IMG_NAME}:${IMG_TAG} -f ${WORKSPACE}/docker/Dockerfile ."
-                sh 'docker images'
-                //sh "docker tag ${IMG_NAME}:${IMG_TAG} tomcat-img:latest"                
+                sh 'docker images'               
             }
         }
         stage('Push Docker Image to ECR') {
             steps {
                 script {
                     sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-                    sh "sudo docker tag ${IMG_NAME}:${IMG_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMG_TAG}"
-                    sh "sudo docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMG_TAG}"
+                    sh "docker tag ${IMG_NAME}:${IMG_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMG_TAG}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMG_TAG}"
                 }
             }
         }
@@ -99,6 +97,7 @@ pipeline {
             steps {
                 sh "aws ecr batch-delete-image --repository-name ${ECR_REPO_NAME} --image-ids imageTag=${IMG_TAG}"
                 sh 'mvn clean'
+                sh 'docker rmi -f `docker images -q`'
                 sh 'sudo rm -rf target'
                 sh 'ls -la'
             }
