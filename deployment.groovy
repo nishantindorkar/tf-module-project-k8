@@ -95,9 +95,9 @@ pipeline {
         }
         stage('Post-build Cleanup') {
             steps {
-                sh "aws ecr batch-delete-image --repository-name ${ECR_REPO_NAME} --image-ids imageTag=${IMG_TAG}"
-                sh 'mvn clean'
-                sh 'docker rmi -f `docker images -q`'
+                //sh "aws ecr batch-delete-image --repository-name ${ECR_REPO_NAME} --image-ids imageTag=${IMG_TAG}"
+                //sh 'mvn clean'
+                //sh 'docker rmi -f `docker images -q`'
                 sh 'sudo rm -rf target'
                 sh 'ls -la'
             }
