@@ -88,31 +88,20 @@ pipeline {
                 ssh -i ${ubuntu} -o StrictHostKeyChecking=no ubuntu@44.212.21.84<<EOF
                 sudo kubectl apply -f /var/lib/jenkins/workspace/project-test-phase/my-app.yaml
                 sudo kubectl get pods
+                sudo kubectl delete deployment --all
+                sudo pwd
 
                 '''
                 }
-                // sshagent(['ubuntu-machine']) {
-                //     script{
-                //         try{
-                //         sh 'ssh -i StrictHostKeyChecking=no ubuntu@44.212.21.84 kubectl apply -f my-app.yaml'
-                //         }
-                //         catch(error)
-                //         {}
-                //     }
-                // }
             }
         }
         stage('Post-build Cleanup') {
             steps {
-                //sh 'mvn clean'
+                sh "aws ecr batch-delete-image --repository-name ${ECR_REPO_NAME} --image-ids imageTag=${IMG_TAG}"
+                sh 'mvn clean'
                 sh 'sudo rm -rf target'
                 sh 'ls -la'
             }
         } 
     }
-    // post {
-	// 	always {
-	// 		sh 'docker logout'
-	// 	}
-	// }
 }

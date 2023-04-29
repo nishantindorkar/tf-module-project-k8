@@ -1,43 +1,22 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
-  name: app-deploy
-  labels:
-    app: app-dep
-    type: front-end
+  name: my-pod
 spec:
-  template:
-    metadata:
-      name: app-deploy-pod
-      labels:
-        app: tem-app-dep
-        type: front-end
-    spec:
-      containers:
-        - name: app-container
-          image: 164358940697.dkr.ecr.us-east-1.amazonaws.com/tomcat-repo:latest
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 8080
-          command:
-            - sh
-            - -c
-            - "catalina.sh run"
-      imagePullSecrets:
-        - name: aws-ecr-secret
-  replicas: 1
-  selector:
-    matchLabels:
-      type: front-end
+  containers:
+  - name: my-container
+    image: 164358940697.dkr.ecr.us-east-1.amazonaws.com/tomcat-repo:latest
+    ports:
+    - containerPort: 8082
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-dep-service
+  name: my-service
 spec:
-  selector:
-    app: tem-app-dep
   type: LoadBalancer
   ports:
-    - port: 8082
-      targetPort: 8080
+  - port: 8080
+    targetPort: 8082
+  selector:
+    app: my-app
