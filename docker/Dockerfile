@@ -15,7 +15,6 @@ RUN tar -xvzf apache*.tar.gz
 RUN mv apache-tomcat-8.5.88/* /opt/tomcat/.
 
 WORKDIR /opt/tomcat/webapps
-ARG BUILD_ID
 RUN aws s3 cp s3://artifact-studentui/student.war .
 
 WORKDIR /opt/tomcat/lib
