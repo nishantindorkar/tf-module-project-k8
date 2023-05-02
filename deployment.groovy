@@ -25,12 +25,20 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv("${SONARQUBE_ENV}") {
-                    sh 'mvn sonar:sonar \
-                        -Dsonar.projectKey=project-dev-integrate \
-                        -Dsonar.host.url=http://18.208.136.77:9000 \
-                        -Dsonar.login=898ac8d0864105b15fa3b6c4cd4e6a8287c20c4b'
-                }
+                withSonarQubeEnv('sonarqube-new') {
+                sh" mvn sonar:sonar \
+                ${SCANNER_HOME**}/bin/sonar-scanner \
+                -Dsonar.projectKey=project-dev-integrate \
+                -Dsonar.host.url=http://18.208.136.77:9000 \
+                -Dsonar.login=898ac8d0864105b15fa3b6c4cd4e6a8287c20c4b
+                -Dsonar.sources=. "
+            }
+                // withSonarQubeEnv("${SONARQUBE_ENV}") {
+                //     sh 'mvn sonar:sonar \
+                //         -Dsonar.projectKey=project-dev-integrate \
+                //         -Dsonar.host.url=http://18.208.136.77:9000 \
+                //         -Dsonar.login=898ac8d0864105b15fa3b6c4cd4e6a8287c20c4b'
+                // }
             }
         }
         // stage('Push Artifacts') {
