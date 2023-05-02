@@ -86,6 +86,7 @@ pipeline {
                 ssh -i ${ubuntu} -o StrictHostKeyChecking=no ubuntu@44.212.21.84<<EOF
                 sudo kubectl apply -f /var/lib/jenkins/workspace/project-test-phase/my-app.yaml
                 sudo kubectl get pods
+                sudo kubectl get svc
                 '''
                 }
             }
