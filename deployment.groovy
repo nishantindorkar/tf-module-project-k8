@@ -23,18 +23,13 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         withSonarQubeEnv('sonarqube-new') {
-        //             sh" mvn sonar:sonar \
-        //             ${env.SCANNER_HOME}/bin/sonar-scanner \
-        //             -Dsonar.projectKey=project-dev-integrate \
-        //             -Dsonar.host.url=http://18.208.136.77:9000 \
-        //             -Dsonar.login=898ac8d0864105b15fa3b6c4cd4e6a8287c20c4b \
-        //             -Dsonar.sources=. "
-        //             }
-        //     }
-        // }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonarqube-new') {
+                    sh 'mvn sonar:sonar'
+                    }
+            }
+        }
         stage('Push Artifacts') {
             steps{
                 // sh 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
